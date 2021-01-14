@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Linq;
 using System.IO;
 using System.Drawing.Drawing2D;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Bright.Forms.Main.Docks
 {
@@ -189,13 +190,13 @@ namespace Bright.Forms.Main.Docks
             var item = keysList.Items[keysList.SelectedIndex] as Data.Destination;
             if (item != null)
             {
-                using (var fbd = new FolderBrowserDialog())
+                using (var fbd = new CommonOpenFileDialog())
                 {
-                    fbd.Description = "選択中のキーに新しく設定するフォルダーを選択してください。";
-                    fbd.RootFolder = Environment.SpecialFolder.Desktop;
-                    fbd.SelectedPath = item.DestPath;
-                    if (fbd.ShowDialog() == DialogResult.OK)
-                        item.SetDestPathWithOverwriteConfirm(fbd.SelectedPath);
+                    fbd.Title = "選択中のキーに新しく設定するフォルダーを選択してください。";
+                    fbd.InitialDirectory = item.DestPath;
+                    fbd.IsFolderPicker = true;
+                    if (fbd.ShowDialog() == CommonFileDialogResult.Ok)
+                        item.SetDestPathWithOverwriteConfirm(fbd.FileName);
                     UpdateKeysList();
                 }
             }
@@ -214,12 +215,12 @@ namespace Bright.Forms.Main.Docks
 
         private void AddNewKey_Click(object sender, EventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog())
+            using (var fbd = new CommonOpenFileDialog())
             {
-                fbd.RootFolder = Environment.SpecialFolder.Desktop;
-                if (fbd.ShowDialog() == DialogResult.OK)
+                fbd.Title = "追加するフォルダーを選択してください。";
+                fbd.IsFolderPicker = true;
+                if (fbd.ShowDialog() == CommonFileDialogResult.Ok)
                 {
-                    fbd.Description = "追加するフォルダーを選択してください。";
                     List<Keys> cand = new List<Keys>();
                     var dks = Core.CurrentOperation.Data.GetDestinationsKeys();
                     for (int initPoint = (int)Keys.D0; initPoint <= (int)Keys.D9; initPoint++)
@@ -242,7 +243,7 @@ namespace Bright.Forms.Main.Docks
                         if (ak.ShowDialog() == DialogResult.OK)
                         {
                             Core.CurrentOperation.Data.AddDestination(ak.Selected,
-                                new Bright.Data.Destination(ak.Selected, fbd.SelectedPath));
+                                new Bright.Data.Destination(ak.Selected, fbd.FileName));
                         }
                     }
                 }
@@ -253,15 +254,15 @@ namespace Bright.Forms.Main.Docks
         {
             if(Core.CurrentOperation == null)
                 return;
-            using (var fbd = new FolderBrowserDialog())
+            using (var fbd = new CommonOpenFileDialog())
             {
-                fbd.RootFolder = Environment.SpecialFolder.Desktop;
-                fbd.Description = "追加するフォルダーを選択してください。";
-                if (fbd.ShowDialog() == DialogResult.OK)
+                fbd.Title = "追加するフォルダーを選択してください。";
+                fbd.IsFolderPicker = true;
+                if (fbd.ShowDialog() == CommonFileDialogResult.Ok)
                 {
                     try
                     {
-                        using (var ksetup = new Dialogs.KeySetup(fbd.SelectedPath))
+                        using (var ksetup = new Dialogs.KeySetup(fbd.FileName))
                         {
                             ksetup.SetMapping(Core.CurrentOperation.Data.GetDestinationsKeys().ToArray<Keys>());
                             if (ksetup.ShowDialog() == DialogResult.OK)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using WeifenLuo.WinFormsUI.Docking;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Bright.Forms.Main
 {
@@ -387,11 +388,11 @@ namespace Bright.Forms.Main
 
         private void menuAddFolder_Click(object sender, EventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog())
+            using (var fbd = new CommonOpenFileDialog())
             {
-                fbd.Description = "追加するフォルダーを選択してください";
-                fbd.RootFolder = Environment.SpecialFolder.Desktop;
-                if (fbd.ShowDialog() == DialogResult.OK)
+                fbd.Title = "追加するフォルダーを選択してください";
+                fbd.IsFolderPicker = true;
+                if (fbd.ShowDialog() == CommonFileDialogResult.Ok)
                 {
                     try
                     {
@@ -411,7 +412,7 @@ namespace Bright.Forms.Main
                                 extents.Add(ext.ToUpper());
                         }
                         List<string> files = new List<string>();
-                        foreach (var f in Directory.GetFiles(fbd.SelectedPath, "*",
+                        foreach (var f in Directory.GetFiles(fbd.FileName, "*",
                             MessageBox.Show("下層フォルダーにあるファイルも追加しますか？", "ファイルの追加", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))
                         {
                             var ext = Path.GetExtension(f);
@@ -426,7 +427,7 @@ namespace Bright.Forms.Main
                     catch (UnauthorizedAccessException uae)
                     {
                         MessageBox.Show(
-                            "ディレクトリ " + fbd.SelectedPath + Environment.NewLine +
+                            "ディレクトリ " + fbd.FileName + Environment.NewLine +
                             "へのアクセスが拒否されたため、振り分けリストに追加できませんでした。" + Environment.NewLine +
                             uae.ToString(),
                             "アクセスエラー", MessageBoxButtons.OK, MessageBoxIcon.Hand);
@@ -740,22 +741,22 @@ namespace Bright.Forms.Main
                     if (waitingKey == e.KeyData)
                     {
                         statusLabel.Text = "キー " + e.KeyData.GetString() + " へ登録します...";
-                        using (var fbd = new FolderBrowserDialog())
+                        using (var fbd = new CommonOpenFileDialog())
                         {
-                            fbd.Description = "キー " + e.KeyData.GetString() + " へ登録するフォルダーの選択";
-                            fbd.RootFolder = Environment.SpecialFolder.Desktop;
-                            if (fbd.ShowDialog() == DialogResult.OK)
+                            fbd.Title = "キー " + e.KeyData.GetString() + " へ登録するフォルダーの選択";
+                            fbd.IsFolderPicker = true;
+                            if (fbd.ShowDialog() == CommonFileDialogResult.Ok)
                             {
                                 try
                                 {
                                     Core.CurrentOperation.Data.AddDestination(e.KeyData,
-                                        new Bright.Data.Destination(e.KeyData, fbd.SelectedPath));
+                                        new Bright.Data.Destination(e.KeyData, fbd.FileName));
                                     DoGrouping(e.KeyData);
                                 }
                                 catch (UnauthorizedAccessException uae)
                                 {
                                     MessageBox.Show(
-                                        "ディレクトリ " + fbd.SelectedPath + Environment.NewLine +
+                                        "ディレクトリ " + fbd.FileName + Environment.NewLine +
                                         "へアクセスできません。" + Environment.NewLine +
                                         uae.ToString(),
                                         "アクセスエラー", MessageBoxButtons.OK, MessageBoxIcon.Hand);
