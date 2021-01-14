@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace Bright.Forms.Setup
 {
@@ -98,18 +99,18 @@ namespace Bright.Forms.Setup
 
         private void addFolder_Click(object sender, EventArgs e)
         {
-            using (var folder = new FolderBrowserDialog())
+            using (var folder = new CommonOpenFileDialog())
             {
-                folder.Description = "追加するフォルダーを選択してください。";
-                folder.RootFolder = Environment.SpecialFolder.Desktop;
-                if (folder.ShowDialog() == DialogResult.OK)
+                folder.Title= "追加するフォルダーを選択してください。";
+                folder.IsFolderPicker = true;
+                if (folder.ShowDialog() == CommonFileDialogResult.Ok)
                 {
-                    if (targetList.Items.Contains(folder.SelectedPath))
+                    if (targetList.Items.Contains(folder.FileName))
                         MessageBox.Show("すでに含まれています。", "フォルダーの追加エラー",
                             MessageBoxButtons.OK, MessageBoxIcon.Hand);
                     else
                     {
-                        targetList.Items.Add(folder.SelectedPath, true);
+                        targetList.Items.Add(folder.FileName, true);
                         okBtn.Enabled = true;
                     }
                 }
@@ -202,12 +203,12 @@ namespace Bright.Forms.Setup
 
         private void browseFolder_Click(object sender, EventArgs e)
         {
-            using (var folder = new FolderBrowserDialog())
+            using (var folder = new CommonOpenFileDialog())
             {
-                folder.Description = "このキーに設定するフォルダーを選択してください。";
-                folder.RootFolder = Environment.SpecialFolder.Desktop;
-                if (folder.ShowDialog() == DialogResult.OK)
-                    pathText.Text = folder.SelectedPath;
+                folder.Title = "このキーに設定するフォルダーを選択してください。";
+                folder.IsFolderPicker = true;
+                if (folder.ShowDialog() == CommonFileDialogResult.Ok)
+                    pathText.Text = folder.FileName;
             }
         }
 
@@ -252,15 +253,15 @@ namespace Bright.Forms.Setup
 
         private void keyFromFolder_Click(object sender, EventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog())
+            using (var fbd = new CommonOpenFileDialog())
             {
-                fbd.Description = "設定するルートフォルダーを選択してください。";
-                fbd.RootFolder = Environment.SpecialFolder.Desktop;
-                if (fbd.ShowDialog() == DialogResult.OK)
+                fbd.Title = "設定するルートフォルダーを選択してください。";
+                fbd.IsFolderPicker = true;
+                if (fbd.ShowDialog() == CommonFileDialogResult.Ok)
                 {
                     try
                     {
-                        using (var map = new Dialogs.KeySetup(fbd.SelectedPath))
+                        using (var map = new Dialogs.KeySetup(fbd.FileName))
                         {
                             if (map.ShowDialog() == DialogResult.OK)
                             {
