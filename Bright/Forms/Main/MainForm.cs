@@ -334,7 +334,7 @@ namespace Bright.Forms.Main
             {
                 if (MessageBox.Show(
                     "すべての操作が完了しました。" + Environment.NewLine +
-                    "振り分けを開始します。", "操作の完了",
+                    switchCutCopyButton.Text + "モードで振り分けを開始します。", "操作の完了",
                     MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.Cancel)
                 {
                     Core.CurrentOperation.SetPrev();
@@ -574,7 +574,7 @@ namespace Bright.Forms.Main
         {
             if (MessageBox.Show(
                 "予約はまだ完了していません。" + Environment.NewLine +
-                "振り分けを実行してもよろしいですか？", "途中実行の確認",
+                switchCutCopyButton.Text + "モードで振り分けを実行してもよろしいですか？", "途中実行の確認",
                  MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 ExecGrouping();
         }
