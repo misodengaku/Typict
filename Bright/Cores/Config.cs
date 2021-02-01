@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -70,7 +70,7 @@ namespace Bright.Cores
             public InterpolationMode InterpolationMode = InterpolationMode.HighQualityBicubic;
             public bool UseDynamicInterpolate = true;
             public ulong SizeBorder = 1500 * 1500;
-            public InterpolationMode BigImageIntpMode = InterpolationMode.NearestNeighbor;
+            public InterpolationMode BigImageIntpMode = InterpolationMode.HighQualityBicubic;
 
             public Size ThumbnailSize = new Size(60, 40);
             public double KeyListPoint = 9.0;

@@ -893,9 +893,6 @@ namespace Bright.Forms.Main
             e.Handled = true;
             switch (e.KeyCode)
             {
-                case Keys.Up:
-                    cutcopyButton_Click(null, null);
-                    break;
                 case Keys.Escape:
                     menuInit_Click(null, null);
                     break;
@@ -915,6 +912,7 @@ namespace Bright.Forms.Main
                 case Keys.Right:
                     menuSkip_Click(null, null);
                     break;
+                case Keys.Up:
                 case Keys.Back:
                 case Keys.Left:
                     menuBack_Click(null, null);

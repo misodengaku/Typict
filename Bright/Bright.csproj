@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -83,9 +83,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.3.1.24483, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=3.0.6.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
+      <HintPath>..\packages\DockPanelSuite.3.0.6\lib\net40\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
