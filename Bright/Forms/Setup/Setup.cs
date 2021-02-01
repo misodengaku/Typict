@@ -19,13 +19,6 @@ namespace Bright.Forms.Setup
             var op = new Data.Operation();
             var dirs = targetList.Items.Cast<string>();
             List<string> extents = new List<string>();
-            foreach(var ext in Subsystem.ImageReader.Instance.GetSusieAcceptExt())
-            {
-                if (ext.Contains('.'))
-                    extents.Add(ext.Split('.')[1].ToUpper());
-                else
-                    extents.Add(ext.ToUpper());
-            }
             foreach(var ext in Subsystem.ImageReader.Instance.GetSystemAcceptExt())
             {
                 if (ext.Contains('.'))
