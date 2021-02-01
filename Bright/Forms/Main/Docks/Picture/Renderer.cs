@@ -346,7 +346,7 @@ namespace Bright.Forms.Main.Docks.Picture
                 }
                 destination.X += Core.Config.DisplayConfig.OverlapThumbnailConfig.Offset.X;
                 destination.Y += Core.Config.DisplayConfig.OverlapThumbnailConfig.Offset.Y;
-                pe.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+                pe.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 pe.Graphics.DrawImage(nextElem.BufferedImage,
                     new Rectangle(destination, Core.Config.DisplayConfig.OverlapThumbnailConfig.ThumbnailSize));
             }
